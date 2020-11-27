@@ -1,8 +1,23 @@
+# Curva de Koch
+
+## Explicação do código
+## Código Completo
+## Observações
+
+# Preenchimento de Região
+Dado um ponto, uma coordenada representada por x e y, e toda a região continua em torno dele que possuem a mesma cor. Deve ser pintado aquela região por uma cor definida previamente pelo método 
+
+## Explicação do código
+O método `regionFill` é um método público com retorno do tipo `void` que recebe como paramêtro três variáveis do tipo `int`: `x` e `y`, valores da coordnada do pixel, e `reference_rgb`, valor da cor do pixel.
+```Java
+public void regionFill(int x, int y, int reference_rgb)
+```
 Nós criamos primeiramente duas vários do tipo int, width e height para representar a largura e a altura da imagem, respectivamente. E com o auxílio de métodos já definidos da classe Imagem, getWidth e getHeight, passamos o valor requerido respectivamente para cada uma de nossas variáveis.
 ```Java
 int width = super.getWidth();
 int height = super.getHeight();
 ```
+
 Antes de pintar o pixel é necessário verificar se ele está dentro do intervalos de valores válidos (tamanho da imagem), para isso é necessário atender quatro condições:
 1. x ser maior ou igual a 0;
 2. y ser maior ou igual a 0;
@@ -11,7 +26,6 @@ Antes de pintar o pixel é necessário verificar se ele está dentro do interval
 ```Java
 if(x >= 0 && y >= 0 && x < width && y < height)
 ```
-
 
 Também criamos a variável color do tipo int para receber atráves do método getPixel da classe Image, que recebe como paramêtros as variáveis x e y, o valor da cor do pixel representado por x e y.
 ```Java
@@ -23,7 +37,7 @@ Também é necessário comparar o valor da variável color, que representa a cor
 if (color == reference_rgb)
 ```
 
-Usamos setColor da classe Image para definir a cor que queremos pintar o pixel, passando os três paramêtros para o método: red (255), green(69) e blue(0), obtemos um laranja avermelhado.
+Podemos usar o método setColor da classe Image para deixar definido a cor que queremos pintar o pixel, passando por exemplo os três paramêtros para o método: red (255), green(69) e blue(0), obtemos um laranja avermelhado. Mas deixei desabilitada essa opção pelo entendimento do exercício, para definir a cor é necessário usar SET_COLOR, com a cor que deseja ser usada para pintar, antes de usar REGION_FILL
 ```Java
 super.setColor(255, 69, 0);
 ```
@@ -64,6 +78,43 @@ if (y - 1 >= 0) regionFill(x, y - 1, reference_rgb);
 
 As quatro chamadas recebem o mesmo valor de reference_rgb, que é a cor original do pixel escolhido para ser pintado primeiro.
 
+O código será executado até todos os pixels de determinada região serem preenchidos. Quando 
+## Código Completo
+```Java
+// Método para o preenchimento de determinada região
+public void regionFill(int x, int y, int reference_rgb){
+    int width = super.getWidth(); // Valor da largura da imagem
+    int height = super.getHeight(); // Valor da altura da imagem
+
+    // Veriricar se a coordenada x e y é válido
+    if(x >= 0 && y >= 0 && x < width && y < height){
+        int color = super.getPixel(x, y); // Recebe a cor do pixel
+
+        // Verifica se  color e reference_rgb tem o mesmo valor
+        if (color == reference_rgb) {
+            //super.setColor(255, 69, 0);
+            super.setPixel(x, y); // Pinta o pixel da coordenada x e y
+
+            // Chamada recursiva para o pixel a direita
+            if (x + 1 < width) regionFill(x + 1, y, reference_rgb);
+
+            // Chamada recursiva para o pixel abaixo
+            if (y + 1 < height)regionFill(x, y + 1, reference_rgb); 
+
+            // Chamada recursiva para o pixel a esquerda
+            if (x - 1 >= 0) regionFill(x - 1, y, reference_rgb);
+
+            // Chamada recursiva para o pixel acima
+            if (y - 1 >= 0) regionFill(x, y - 1, reference_rgb);
+        }
+    }
+}
+```
+
 ## Observações
 - Nenhum erro ou problema foi identificado nessa versão do método com os arquivos de entrada utilizados.
+- Uma dúvida sobre o funcionamento do código que é se 
 - 
+
+# Como executar
+
