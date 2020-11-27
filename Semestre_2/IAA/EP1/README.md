@@ -5,80 +5,81 @@
 ## Observações
 
 # Preenchimento de Região
-Dado um ponto, uma coordenada representada por x e y, e toda a região continua em torno dele que possuem a mesma cor. Deve ser pintado aquela região por uma cor definida previamente pelo método 
+Dado um ponto, uma coordenada representada por `x` e `y`, e toda a região continua em torno dele que possuem a mesma cor. Deve ser pintado aquela região por uma cor definida previamente pelo método 
 
 ## Explicação do código
 O método `regionFill` é um método público com retorno do tipo `void` que recebe como paramêtro três variáveis do tipo `int`: `x` e `y`, valores da coordnada do pixel, e `reference_rgb`, valor da cor do pixel.
 ```Java
 public void regionFill(int x, int y, int reference_rgb)
 ```
-Nós criamos primeiramente duas vários do tipo int, width e height para representar a largura e a altura da imagem, respectivamente. E com o auxílio de métodos já definidos da classe Imagem, getWidth e getHeight, passamos o valor requerido respectivamente para cada uma de nossas variáveis.
+Nós criamos primeiramente duas vários do tipo `int`, `width` e `height` para representar a largura e a altura da imagem, respectivamente. E com o auxílio de métodos já definidos da classe `Image`, `getWidth` e `getHeight`, passamos o valor requerido respectivamente para cada uma de nossas variáveis.
 ```Java
 int width = super.getWidth();
 int height = super.getHeight();
 ```
 
 Antes de pintar o pixel é necessário verificar se ele está dentro do intervalos de valores válidos (tamanho da imagem), para isso é necessário atender quatro condições:
-1. x ser maior ou igual a 0;
-2. y ser maior ou igual a 0;
-3. x ser menor que width;
-4. y ser menor que height.
+1. `x` ser maior ou igual a 0;
+2. `y` ser maior ou igual a 0;
+3. `x` ser menor que `width`;
+4. `y` ser menor que `height`.
 ```Java
 if(x >= 0 && y >= 0 && x < width && y < height)
 ```
 
-Também criamos a variável color do tipo int para receber atráves do método getPixel da classe Image, que recebe como paramêtros as variáveis x e y, o valor da cor do pixel representado por x e y.
+Também criamos a variável `color` do tipo int para receber atráves do método `getPixel` da classe `Image`, que recebe como paramêtros as variáveis `x` e `y`, o valor da cor do pixel representado por `x` e `y`.
 ```Java
 int color = super.getPixel(x, y);
 ```
 
-Também é necessário comparar o valor da variável color, que representa a cor do pixel atual, com do paramêtro reference_rgb, que representa a cor original do pixel passado pelo arquivo de entrada. E apenas caso as duas variáveis tenham o mesmo valor, será executado as intruções para colorir o pixel e chamar recursivamente o método para os pixels vizinhos (direita, esquerda, cima e baixo).
+Também é necessário comparar o valor da variável `color`, que representa a cor do pixel atual, com do paramêtro `reference_rgb`, que representa a cor original do pixel passado pelo arquivo de entrada. E apenas caso as duas variáveis tenham o mesmo valor, será executado as intruções para colorir o pixel e chamar recursivamente o método para os pixels vizinhos (direita, esquerda, cima e baixo).
 ```Java
 if (color == reference_rgb)
 ```
 
-Podemos usar o método setColor da classe Image para deixar definido a cor que queremos pintar o pixel, passando por exemplo os três paramêtros para o método: red (255), green(69) e blue(0), obtemos um laranja avermelhado. Mas deixei desabilitada essa opção pelo entendimento do exercício, para definir a cor é necessário usar SET_COLOR, com a cor que deseja ser usada para pintar, antes de usar REGION_FILL
+Podemos usar o método `setColor` da classe `Image` para deixar definido a cor que queremos pintar o pixel, passando por exemplo os três paramêtros para o método: red (255), green(69) e blue(0), obtemos um laranja avermelhado. Mas deixei desabilitada essa opção pelo meu entendimento do exercício, para definir a cor é necessário usar **SET_COLOR**, com a cor que deseja ser usada para pintar, antes de usar **REGION_FILL**.
 ```Java
-super.setColor(255, 69, 0);
+// super.setColor(255, 69, 0);
 ```
 
-E o método setPixel, também da classe Image, para pintar o pixel representado por x e y (passados para o paramêtro do método)
+E o método `setPixel`, também da classe `Image`, para pintar o pixel representado por `x` e `y` (passados para o paramêtro do método)
 ```Java
 super.setPixel(x, y);
 ```
 
-Para repetir o processo com os pixels vizinhos (direita, esquerda, cima e baixo), chamamos o método regionFill de forma recursiva quatro vezes:
+Para repetir o processo com os pixels vizinhos (direita, esquerda, cima e baixo), chamamos o método `regionFill` de forma recursiva quatro vezes:
 1. Pixel vizinho da direita
-- Para pintar o pixel a direita, precisamos validar que x + 1 não seja maior ou igual ao valor de width;
-- Passamos como paramêtros x + 1, que representa a deslocação de um pixel para direita, e y.
+- Para pintar o pixel a direita, precisamos validar que `x + 1` não seja maior ou igual ao valor de `width`;
+- Passamos como paramêtros `x + 1`, que representa a deslocação de um pixel para direita, e `y`.
 ```Java
 if (x + 1 < width) regionFill(x + 1, y, reference_rgb);
 ```
 
 2. Pixel vizinho de baixo
-- Para pintar o pixel abaixo, precisamos validar que y + 1 não seja maior ou igual ao valor de height;
-- Passamos como paramêtros x e y + 1, que representa a deslocação de um pixel para baixo.
+- Para pintar o pixel abaixo, precisamos validar que `y + 1` não seja maior ou igual ao valor de `height`;
+- Passamos como paramêtros `x` e `y + 1`, que representa a deslocação de um pixel para baixo.
 ```Java
 if (y + 1 < height)regionFill(x, y + 1, reference_rgb);
 ```
     
 3. Pixel vizinho da esquerda
 - Para pintar o pixel a esquerda, precisamos validar que x - 1 seja maior ou igual a zero;
-- Passamos como paramêtros x - 1, que representa a deslocação de um pixel para esquerda, e y.
+- Passamos como paramêtros `x - 1`, que representa a deslocação de um pixel para esquerda, e `y`.
 ```Java
 if (x - 1 >= 0) regionFill(x - 1, y, reference_rgb);
 ```
     
 4. Pixel vizinho de cima
-- Para pintar o pixel acima, precisamos validar que y - 1 seja maior ou igual a zero;
-- Passamos como paramêtros x e y, que representa a deslocação de um pixel para cima.
+- Para pintar o pixel acima, precisamos validar que `y - 1` seja maior ou igual a zero;
+- Passamos como paramêtros `x` e `y - 1`, que representa a deslocação de um pixel para cima.
 ```Java
 if (y - 1 >= 0) regionFill(x, y - 1, reference_rgb);
 ```    
 
-As quatro chamadas recebem o mesmo valor de reference_rgb, que é a cor original do pixel escolhido para ser pintado primeiro.
+As quatro chamadas recebem o mesmo valor de `reference_rgb`, que é a cor original do pixel escolhido para ser pintado primeiro.
 
-O código será executado até todos os pixels de determinada região serem preenchidos. Quando 
+O código será executado até todos os pixels de determinada região serem preenchidos. Quando encontrar um pixel de uma cor diferente da `reference_rgb` ou estiver fora da da área da imagem, não será mais executado o método e não será chamado para os pixels vizinhos.
+
 ## Código Completo
 ```Java
 // Método para o preenchimento de determinada região
