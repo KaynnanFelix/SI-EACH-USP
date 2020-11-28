@@ -10,7 +10,7 @@ Usaremos duas variáveis do tipo `int` chamadas de `delta_x` e `delta_y` para re
 int delta_x = qx - px;
 int delta_y = qy - py;
 ```
-Também criaremos cinco variáveis do tipo `int` para representar os novos pontos que deveram se desenhados.
+Também criaremos seis variáveis do tipo `int` para representar os novos pontos que deveram se desenhados.
 ```Java
 int ax, ay, bx, by, cx, cy;
 ```
@@ -142,6 +142,9 @@ public void kochCurve(int px, int py, int qx, int qy, int l) {
 }
 ```
 ## Observações
+- Dependendo do valor do limiar, alguns pontos acabam por não ser calculados e outros são calculados (pontos equivalentes). Ao diminuir o valor do limiar esses pontos são calculados.
+- Ao diminuir o limiar acaba ocorrendo uma deformação da curva possivelmente por estarmos trabalhando com `int` ao qual atribuir a problema de precisão dos valores (mesmo o cálculo sendo efetuado em `double` antes de ser convertido para `int`).
+- É possível desenhar um floco de neve de Koch.
 
 # Preenchimento de Região
 Dado um ponto, uma coordenada representada por `x` e `y`, e toda a região continua em torno dele que possuem a mesma cor. Deve ser pintado aquela região por uma cor definida previamente pelo método 
@@ -253,8 +256,21 @@ public void regionFill(int x, int y, int reference_rgb){
 
 ## Observações
 - Nenhum erro ou problema foi identificado nessa versão do método com os arquivos de entrada utilizados.
-- Uma dúvida sobre o funcionamento do código que é se 
-- 
+- Uma dúvida sobre o funcionamento do código é da escolhar da cor para pintar, o qual foi deixado para ser selecionado no arquivo de entrada com o comando **SET_COLOR**
 
 # Como executar
+Antes de executar é necessário compilar os arquivos java, para isso usamos no terminal o seguinte comando:
+```
+$ javac Main.java
+```
+E para executar usamos o molde de comando a seguir:
+```Java
+$ java Main entrada.txt saida.png
+```
+Ou usamos o comando a seguir (para solucionar o problema StackOverflow no preenchimento de regiã)o:
+```Java
+java -Xss250M Main entrada.txt saida.png
+```
+
+O arquivo **entrada.txt** contém as intruções para o código executar e o arquivo **saida.png** é o resultado das instruções executadas.
 
