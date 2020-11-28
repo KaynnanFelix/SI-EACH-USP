@@ -1,5 +1,5 @@
 # Curva de Koch
-
+A partir de um segmento de reta PQ inicial, podemos desenhar uma curva de Koch ao calcular os pontos A, B, C e repetir o mesmo processo para cada nova reta que seja não seja menor que o limiar.
 ## Explicação do código
 O método `kochCurve` é um método público com tipo de retorno `void`, que recebe como paramêtro cinco variáveis: `int px`, `int py`, `int qx`, `int qy` (as coordenadas dos pontos P e Q, representados da forma x e y) e `int l` (o valor do limiar, que usaremos para saber quando devemos desenhar a reta).
 ```Java
@@ -28,7 +28,7 @@ Depois verificaremos se os valores valores dos deltas são menores que o limiar,
 ```Java
 if ((-delta_x < l) && (-delta_y < l))
 ```
-Caso os deltas sejam menores que o limiar, iremos desenhar a reta PQ usando o método da classe `Image` `drawLine`.
+Caso os deltas sejam menores que o limiar, iremos desenhar a reta PQ usando o método `drawLine` da classe `Image`.
 ```
 super.drawLine(px, py, qx, qy);
 ```
@@ -81,64 +81,62 @@ public void kochCurve(int px, int py, int qx, int qy, int l) {
     int delta_x = qx - px;
     int delta_y = qy - py;
     int ax, ay, bx, by, cx, cy;
-	double tmp; // variavel usada para fazer o calculo em double
-
-	if (delta_x < 0 || delta_y < 0) {
-		if ((-delta_x < l) && (-delta_y < l)) {
-			super.drawLine(px, py, qx, qy); // desenhar a reta PQ
-		} else {
-			// Calculo do Ponto A (Ax e Ay)
-			tmp = Math.round(px + delta_x / 3);
-			ax = (int) tmp;
-			tmp = Math.round(py + delta_y / 3);
-			ay = (int) tmp;
-
-			// Calculo do Ponto B (Bx e By)
-			tmp = Math.round((px + qx) / 2 + Math.sqrt(3) / 6 * (qy - py));
-			bx = (int) tmp;
-			tmp = Math.round((py + qy) / 2 + Math.sqrt(3) / 6 * (px - qx));
-			by = (int) tmp;
-
-			// Calculo do Ponto C (Cx e Cy)
-			tmp = Math.round(qx - delta_x / 3);
-			cx = (int) tmp;
-			tmp = Math.round(qy - delta_y / 3);
-			cy = (int) tmp;
-
-			kochCurve(px, py, ax, ay, l); // Curva de Koch para a reta PA
-			kochCurve(ax, ay, bx, by, l); // Curva de Koch para a reta AB
-			kochCurve(bx, by, cx, cy, l); // Curva de Koch para a reta BC
-			kochCurve(cx, cy, qx, qy, l); // Curva de Koch para a reta CQ
-		}
+    double tmp; // variavel usada para fazer o calculo em double
+    
+    if (delta_x < 0 || delta_y < 0) {
+    	if ((-delta_x < l) && (-delta_y < l)) {
+		super.drawLine(px, py, qx, qy); // desenhar a reta PQ
 	} else {
-		if ((delta_x < l) && (delta_y < l)) {
-			super.drawLine(px, py, qx, qy); // desenhar a reta PQ
-		} else {
+		// Calculo do Ponto A (Ax e Ay)
+		tmp = Math.round(px + delta_x / 3);
+		ax = (int) tmp;
+		tmp = Math.round(py + delta_y / 3);
+		ay = (int) tmp;
 
-			// Calculo do Ponto A (Ax e Ay)
-			tmp = Math.round(px + delta_x / 3);
-			ax = (int) tmp;
-			tmp = Math.round(py + delta_y / 3);
-			ay = (int) tmp;
+		// Calculo do Ponto B (Bx e By)
+		tmp = Math.round((px + qx) / 2 + Math.sqrt(3) / 6 * (qy - py));
+		bx = (int) tmp;
+		tmp = Math.round((py + qy) / 2 + Math.sqrt(3) / 6 * (px - qx));
+		by = (int) tmp;
 
-			// Calculo do Ponto B (Bx e By)
-			tmp = Math.round((px + qx) / 2 + Math.sqrt(3) / 6 * (qy - py));
-			bx = (int) tmp;
-			tmp = Math.round((py + qy) / 2 + Math.sqrt(3) / 6 * (px - qx));
-			by = (int) tmp;
+		// Calculo do Ponto C (Cx e Cy)
+		tmp = Math.round(qx - delta_x / 3);
+		cx = (int) tmp;
+		tmp = Math.round(qy - delta_y / 3);
+		cy = (int) tmp;
 
-			// Calculo do Ponto C (Cx e Cy)
-			tmp = Math.round(qx - delta_x / 3);
-			cx = (int) tmp;
-			tmp = Math.round(qy - delta_y / 3);
-			cy = (int) tmp;
+		kochCurve(px, py, ax, ay, l); // Curva de Koch para a reta PA
+		kochCurve(ax, ay, bx, by, l); // Curva de Koch para a reta AB
+		kochCurve(bx, by, cx, cy, l); // Curva de Koch para a reta BC
+		kochCurve(cx, cy, qx, qy, l); // Curva de Koch para a reta CQ}
+    } else {
+    	if ((delta_x < l) && (delta_y < l)) {
+		super.drawLine(px, py, qx, qy); // desenhar a reta PQ
+	} else {
+		// Calculo do Ponto A (Ax e Ay)
+		tmp = Math.round(px + delta_x / 3);
+		ax = (int) tmp;
+		tmp = Math.round(py + delta_y / 3);
+		ay = (int) tmp;
 
-			kochCurve(px, py, ax, ay, l); // Curva de Koch para a reta PA
-			kochCurve(ax, ay, bx, by, l); // Curva de Koch para a reta AB
-			kochCurve(bx, by, cx, cy, l); // Curva de Koch para a reta BC
-			kochCurve(cx, cy, qx, qy, l); // Curva de Koch para a reta CQ
-		}
+		// Calculo do Ponto B (Bx e By)
+		tmp = Math.round((px + qx) / 2 + Math.sqrt(3) / 6 * (qy - py));
+		bx = (int) tmp;
+		tmp = Math.round((py + qy) / 2 + Math.sqrt(3) / 6 * (px - qx));
+		by = (int) tmp;
+
+		// Calculo do Ponto C (Cx e Cy)
+		tmp = Math.round(qx - delta_x / 3);
+		cx = (int) tmp;
+		tmp = Math.round(qy - delta_y / 3);
+		cy = (int) tmp;
+
+		kochCurve(px, py, ax, ay, l); // Curva de Koch para a reta PA
+		kochCurve(ax, ay, bx, by, l); // Curva de Koch para a reta AB
+		kochCurve(bx, by, cx, cy, l); // Curva de Koch para a reta BC
+		kochCurve(cx, cy, qx, qy, l); // Curva de Koch para a reta CQ
 	}
+    }
 }
 ```
 ## Observações
@@ -257,13 +255,14 @@ public void regionFill(int x, int y, int reference_rgb){
 ## Observações
 - Nenhum erro ou problema foi identificado nessa versão do método com os arquivos de entrada utilizados.
 - Uma dúvida sobre o funcionamento do código é da escolhar da cor para pintar, o qual foi deixado para ser selecionado no arquivo de entrada com o comando **SET_COLOR**
+- Pode ocorrer de ao utilizar para pintar uma região que contenha uma curva de Koch alguns pixels continuem não sejam pintados. Acredito que isso esteja ocorrendo por ser um pixel não vizinho de nenhum outro pixel que será pintado. 
 
 # Como executar
 Antes de executar é necessário compilar os arquivos java, para isso usamos no terminal o seguinte comando:
 ```
 $ javac Main.java
 ```
-E para executar usamos o molde de comando a seguir:
+E para executar usamos o molde de comando a seguir (modificando apenas o nome dos arquivos de entrada e saida, mantendo a mesma extensão):
 ```Java
 $ java Main entrada.txt saida.png
 ```
