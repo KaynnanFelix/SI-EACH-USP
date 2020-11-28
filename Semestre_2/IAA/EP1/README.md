@@ -1,39 +1,58 @@
 # Curva de Koch
 
 ## Explicação do código
+O método `kochCurve` é um método público com tipo de retorno `void`, que recebe como paramêtro cinco variáveis: `int px`, `int py`, `int qx`, `int qy` (as coordenadas dos pontos P e Q, representados da forma x e y) e `int l` (o valor do limiar, que usaremos para saber quando devemos desenhar a reta).
+```Java
 public void kochCurve(int px, int py, int qx, int qy, int l)
+```
+Usaremos duas variáveis do tipo `int` chamadas de `delta_x` e `delta_y` para representar a diferença entre os valores da reta.
+```Java
 int delta_x = qx - px;
 int delta_y = qy - py;
+```
+Também criaremos cinco variáveis do tipo `int` para representar os novos pontos que deveram se desenhados.
+```Java
 int ax, ay, bx, by, cx, cy;
-double tmp;  
+```
+E criaremos uma variável do tipo `double` para efetuar os cálculos dos pontos.
+```Java
+double tmp; 
+```
 
-Para desenharmos todos os as retas da curva de Koch, precisaremos fazer algumas verificações. A primeira é se o caso um dos valores de delta_x e delta_y s
+Para desenharmos todos os as retas da curva de Koch, precisaremos fazer algumas verificações. A primeira é se o caso um dos valores de `delta_x` e `delta_y s`
 são menores que zero (isso pode ocorre pela forma que é passado nos paramêtros do método e se não tratamos a curva não será desenhada completamente).
-if (delta_x < 0 || delta_y < 0) 
+```Java
+if (delta_x < 0 || delta_y < 0)
+```
 Depois verificaremos se os valores valores dos deltas são menores que o limiar, para isso mudaremos o sinal do valores dos deltas, pois todo valor negativo é menor que o limiar, mas ao mudarmos, alguns valores acabam sendo maiores e mais retas serão calculadas.
+```Java
 if ((-delta_x < l) && (-delta_y < l))
-Caso os deltas sejam menores que o limiar, iremos desenhar a reta PQ usando o método da classe Image drawLine.
+```
+Caso os deltas sejam menores que o limiar, iremos desenhar a reta PQ usando o método da classe `Image` `drawLine`.
+```
 super.drawLine(px, py, qx, qy);
+```
 
 No código acaba por ocorre uma duplicação de código, por isso explirei no final o código para calcular os pontos A, B, C.
 ```Java
 // Cálculo do pontos A, B, C e chamada recursiva para as novas retas
 ```
 
-Caso o valor dos deltas não sejam menores que zero, iremos verificar se são menores que o limiar e caso seja, faremos a mesma etapa já descrita: usar o método drawLine.
+Caso o valor dos deltas não sejam menores que zero, iremos verificar se são menores que o limiar e caso seja, faremos a mesma etapa já descrita: usar o método `drawLine`.
 ```Java
 if ((delta_x < l) && (delta_y < l))
 super.drawLine(px, py, qx, qy);
 ```
+**código duplicado:**
 
-Para calcular os ponto A (ax e ay) usando uma variável auxiliar que também é usada pelos outros pontos para aumentar a precisão dos valores e o método da classe Math roound para arrendodar os valores. O ponto A se encontra em um terço da reta original.
+Para calcular os ponto A (`ax` e `ay`) usando uma variável auxiliar que também é usada pelos outros pontos para aumentar a precisão dos valores e o método da classe `Math` `round` para arrendodar os valores. O ponto A se encontra em um terço da reta original.
 ```Java
 tmp = Math.round(px + delta_x / 3);
 ax = (int) tmp;
 tmp = Math.round(py + delta_y / 3);
 ay = (int) tmp;
 ```
-Para calcular o ponto B (bx e by) é um pouco mais complicado, ele se encontra no meio da reta. Ao fazer os cálculos chegamos nas fórmulas a seguir:
+Para calcular o ponto B (`bx` e `by`) é um pouco mais complicado, ele se encontra no meio da reta. Ao fazer os cálculos chegamos nas fórmulas a seguir:
 ```
 tmp = Math.round((px + qx) / 2 + Math.sqrt(3) / 6 * (qy - py));
 bx = (int) tmp;
@@ -41,7 +60,7 @@ tmp = Math.round((py + qy) / 2 + Math.sqrt(3) / 6 * (px - qx));
 by = (int) tmp;
 ```
 
-Para calcular os ponto C (cx e cy) é semelhante ao ponto A, ele se encontra em dois terços da reta original.
+Para calcular os ponto C (`cx` e `cy`) é semelhante ao ponto A, ele se encontra em dois terços da reta original.
 ```Java
 tmp = Math.round(qx - delta_x / 3);
 cx = (int) tmp;
@@ -49,7 +68,7 @@ tmp = Math.round(qy - delta_y / 3);
 cy = (int) tmp;
 ```
 
-Chamamos o método kochCurve para as novas retas que desenhamos.
+Chamamos o método `kochCurve` para as novas retas que desejamos desenhar.
 ```Java
 kochCurve(px, py, ax, ay, l);
 kochCurve(ax, ay, bx, by, l);
@@ -57,6 +76,71 @@ kochCurve(bx, by, cx, cy, l);
 kochCurve(cx, cy, qx, qy, l);
 ```
 ## Código Completo
+```Java
+public void kochCurve(int px, int py, int qx, int qy, int l) {
+    int delta_x = qx - px;
+    int delta_y = qy - py;
+    int ax, ay, bx, by, cx, cy;
+	double tmp; // variavel usada para fazer o calculo em double
+
+	if (delta_x < 0 || delta_y < 0) {
+		if ((-delta_x < l) && (-delta_y < l)) {
+			super.drawLine(px, py, qx, qy); // desenhar a reta PQ
+		} else {
+			// Calculo do Ponto A (Ax e Ay)
+			tmp = Math.round(px + delta_x / 3);
+			ax = (int) tmp;
+			tmp = Math.round(py + delta_y / 3);
+			ay = (int) tmp;
+
+			// Calculo do Ponto B (Bx e By)
+			tmp = Math.round((px + qx) / 2 + Math.sqrt(3) / 6 * (qy - py));
+			bx = (int) tmp;
+			tmp = Math.round((py + qy) / 2 + Math.sqrt(3) / 6 * (px - qx));
+			by = (int) tmp;
+
+			// Calculo do Ponto C (Cx e Cy)
+			tmp = Math.round(qx - delta_x / 3);
+			cx = (int) tmp;
+			tmp = Math.round(qy - delta_y / 3);
+			cy = (int) tmp;
+
+			kochCurve(px, py, ax, ay, l); // Curva de Koch para a reta PA
+			kochCurve(ax, ay, bx, by, l); // Curva de Koch para a reta AB
+			kochCurve(bx, by, cx, cy, l); // Curva de Koch para a reta BC
+			kochCurve(cx, cy, qx, qy, l); // Curva de Koch para a reta CQ
+		}
+	} else {
+		if ((delta_x < l) && (delta_y < l)) {
+			super.drawLine(px, py, qx, qy); // desenhar a reta PQ
+		} else {
+
+			// Calculo do Ponto A (Ax e Ay)
+			tmp = Math.round(px + delta_x / 3);
+			ax = (int) tmp;
+			tmp = Math.round(py + delta_y / 3);
+			ay = (int) tmp;
+
+			// Calculo do Ponto B (Bx e By)
+			tmp = Math.round((px + qx) / 2 + Math.sqrt(3) / 6 * (qy - py));
+			bx = (int) tmp;
+			tmp = Math.round((py + qy) / 2 + Math.sqrt(3) / 6 * (px - qx));
+			by = (int) tmp;
+
+			// Calculo do Ponto C (Cx e Cy)
+			tmp = Math.round(qx - delta_x / 3);
+			cx = (int) tmp;
+			tmp = Math.round(qy - delta_y / 3);
+			cy = (int) tmp;
+
+			kochCurve(px, py, ax, ay, l); // Curva de Koch para a reta PA
+			kochCurve(ax, ay, bx, by, l); // Curva de Koch para a reta AB
+			kochCurve(bx, by, cx, cy, l); // Curva de Koch para a reta BC
+			kochCurve(cx, cy, qx, qy, l); // Curva de Koch para a reta CQ
+		}
+	}
+}
+```
 ## Observações
 
 # Preenchimento de Região
