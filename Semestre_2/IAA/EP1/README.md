@@ -266,7 +266,7 @@ E para executar usamos o molde de comando a seguir (modificando apenas o nome do
 ```Java
 $ java Main entrada.txt saida.png
 ```
-Ou usamos o comando a seguir (para solucionar o problema StackOverflow no preenchimento de regiã)o:
+Ou usamos o comando a seguir (para solucionar o problema StackOverflow no preenchimento de regiã):
 ```Java
 java -Xss250M Main entrada.txt saida.png
 ```
